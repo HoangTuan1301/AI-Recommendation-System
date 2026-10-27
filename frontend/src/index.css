@@ -1,0 +1,65 @@
+@import "tailwindcss";
+
+@theme {
+  --color-cine-bg: #08090D;
+  --color-cine-secondary: #101116;
+  --color-cine-surface: #14151B;
+  --color-cine-elevated: #1C1E27;
+  --color-cine-hover: #232631;
+  --color-cine-border: #292B33;
+  --color-cine-red: #E50914;
+  --color-cine-red-hover: #B80710;
+  --color-cine-text: #FFFFFF;
+  --color-cine-muted: #A1A1AA;
+  --color-cine-success: #22C55E;
+
+  --shadow-cinema: 0 20px 40px -15px rgba(0, 0, 0, 0.8);
+  --shadow-glow-red: 0 0 25px -5px rgba(229, 9, 20, 0.5);
+  --shadow-card-hover: 0 14px 28px rgba(0, 0, 0, 0.6), 0 10px 10px rgba(0, 0, 0, 0.4);
+}
+
+:root {
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #08090D;
+  color: #FFFFFF;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Custom cinematic scrollbars */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #08090D;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #232631;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #E50914;
+}
+
+/* Hide scrollbar for carousel but allow touch/horizontal scrolling */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}

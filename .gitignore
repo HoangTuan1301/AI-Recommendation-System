@@ -247,6 +247,7 @@ data/processed/*
 # Results & outputs
 results/*
 !results/.gitkeep
+!results/*.csv
 *.log
 
 # OS & Editor specific

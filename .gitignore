@@ -218,3 +218,39 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# ==========================================
+# AI-Recommendation-System Specific Ignores
+# ==========================================
+
+# Datasets and Large Files
+data/raw/*
+!data/raw/.gitkeep
+data/processed/*
+!data/processed/.gitkeep
+
+# Model weights and serialized artifacts
+*.pkl
+*.pickle
+*.joblib
+*.h5
+*.pt
+*.pth
+*.onnx
+
+# Datasets file extensions
+*.zip
+*.tar.gz
+*.rar
+*.7z
+
+# Results & outputs
+results/*
+!results/.gitkeep
+*.log
+
+# OS & Editor specific
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

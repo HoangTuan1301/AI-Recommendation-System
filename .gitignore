@@ -228,6 +228,10 @@ data/raw/*
 !data/raw/.gitkeep
 data/processed/*
 !data/processed/.gitkeep
+data/music/raw/*
+!data/music/raw/.gitkeep
+data/music/processed/*
+!data/music/processed/.gitkeep
 
 # Model weights and serialized artifacts
 *.pkl

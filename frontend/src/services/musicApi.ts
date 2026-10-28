@@ -58,47 +58,30 @@ export const musicApi = {
     return data.models;
   },
 
-  // Song catalog
-  getCatalog: (limit = 20, offset = 0) => {
-    const params = new URLSearchParams({ limit: String(limit), offset: String(offset) });
-    return fetchJson<{ total: number; limit: number; offset: number; songs: any[] }>(`/songs/catalog?${params.toString()}`);
-  },
-
   // Song detail
   getSongDetail: (songId: string): Promise<SongDetailResponse> => {
-    return fetchJson<SongDetailResponse>(`/songs/${encodeURIComponent(songId)}`);
+    return fetchJson<SongDetailResponse>(`/songs/${encodeURIComponent(songId.trim())}`);
   },
 
-  // Top songs
-  getTopSongs: (limit = 10) => {
-    return fetchJson<{ total: number; limit: number; songs: any[] }>(`/songs/top?limit=${limit}`);
+  // User listening history strictly from training split
+  getUserHistory: (userId: string, limit = 50): Promise<UserHistoryResponse> => {
+    const params = new URLSearchParams({ limit: String(limit) });
+    return fetchJson<UserHistoryResponse>(
+      `/users/${encodeURIComponent(userId.trim())}/history?${params.toString()}`
+    );
   },
 
-  // Sample users
-  getSampleUsers: () => {
-    return fetchJson<{ count: number; sample_users: any[] }>('/users/sample_users');
-  },
-
-  // User listening history
-  getUserHistory: (userId: string): Promise<UserHistoryResponse> => {
-    return fetchJson<UserHistoryResponse>(`/users/sample_users/${encodeURIComponent(userId)}/history`);
-  },
-
-  // Recommendation inference
+  // Recommendation inference (GET /api/music/recommendations?user_id=...&model=...&top_k=...)
   getRecommendations: (
     userId: string,
     model = 'item_cf',
-    topK = 10,
-    includeDetails = true
+    topK = 10
   ): Promise<MusicRecommendationResponse> => {
-    return fetchJson<MusicRecommendationResponse>('/recommend', {
-      method: 'POST',
-      body: JSON.stringify({
-        user_id: userId,
-        model: model,
-        top_k: topK,
-        include_details: includeDetails,
-      }),
+    const params = new URLSearchParams({
+      user_id: userId.trim(),
+      model: model.trim(),
+      top_k: String(topK),
     });
+    return fetchJson<MusicRecommendationResponse>(`/recommendations?${params.toString()}`);
   },
 };

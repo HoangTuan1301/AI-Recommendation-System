@@ -8,6 +8,7 @@ import { SongCard } from '../components/music/SongCard';
 import { MusicModelSelector } from '../components/music/MusicModelSelector';
 import { MusicModelsPage } from '../pages/MusicModelsPage';
 import { MusicModelInfo, RecommendedSong } from '../types/music';
+import { musicApi } from '../services/musicApi';
 
 const mockSong: RecommendedSong = {
   song_id: 'SOFRQTD12A81C233C0',
@@ -179,5 +180,84 @@ describe('MusicAI Component Unit Tests', () => {
     expect(screen.getByText('0.2448')).toBeInTheDocument(); // HR@10
     expect(screen.getByText('0.1085')).toBeInTheDocument(); // NDCG@10
     expect(screen.getByText('93.20%')).toBeInTheDocument(); // Catalog Coverage
+  });
+});
+
+describe('musicApi service client', () => {
+  it('calls GET /api/music/recommendations with query params', async () => {
+    const mockResponse = {
+      user_id: 'test_user_1',
+      model: 'item_cf',
+      recommendations: [mockSong],
+      latency_ms: 12.5,
+      fallback_used: false,
+      fallback_reason: null,
+      top_k: 1,
+    };
+
+    const fetchSpy = vi.spyOn(globalThis, 'fetch').mockResolvedValueOnce({
+      ok: true,
+      json: async () => mockResponse,
+    } as Response);
+
+    const result = await musicApi.getRecommendations('test_user_1', 'item_cf', 1);
+
+    expect(fetchSpy).toHaveBeenCalledTimes(1);
+    const calledUrl = fetchSpy.mock.calls[0][0] as string;
+    expect(calledUrl).toContain('/api/music/recommendations?');
+    expect(calledUrl).toContain('user_id=test_user_1');
+    expect(calledUrl).toContain('model=item_cf');
+    expect(calledUrl).toContain('top_k=1');
+    expect(result.recommendations).toHaveLength(1);
+    expect(result.fallback_used).toBe(false);
+
+    fetchSpy.mockRestore();
+  });
+
+  it('calls GET /api/music/users/:userId/history with query params', async () => {
+    const mockHistory = {
+      user_id: 'test_user_1',
+      history_count: 5,
+      history: [],
+    };
+
+    const fetchSpy = vi.spyOn(globalThis, 'fetch').mockResolvedValueOnce({
+      ok: true,
+      json: async () => mockHistory,
+    } as Response);
+
+    const result = await musicApi.getUserHistory('test_user_1', 20);
+
+    expect(fetchSpy).toHaveBeenCalledTimes(1);
+    const calledUrl = fetchSpy.mock.calls[0][0] as string;
+    expect(calledUrl).toContain('/api/music/users/test_user_1/history?limit=20');
+    expect(result.user_id).toBe('test_user_1');
+
+    fetchSpy.mockRestore();
+  });
+
+  it('handles fallback_used: true transparently', async () => {
+    const mockFallbackResponse = {
+      user_id: 'cold_user',
+      model: 'item_cf',
+      recommendations: [mockSong],
+      latency_ms: 8.2,
+      fallback_used: true,
+      fallback_reason: 'User has no interaction history',
+      top_k: 1,
+    };
+
+    const fetchSpy = vi.spyOn(globalThis, 'fetch').mockResolvedValueOnce({
+      ok: true,
+      json: async () => mockFallbackResponse,
+    } as Response);
+
+    const result = await musicApi.getRecommendations('cold_user', 'item_cf', 1);
+
+    expect(result.fallback_used).toBe(true);
+    expect(result.fallback_reason).toContain('no interaction history');
+    expect(result.recommendations).toHaveLength(1);
+
+    fetchSpy.mockRestore();
   });
 });

@@ -13,31 +13,41 @@ import {
   UserSummary,
 } from '../types';
 
-const API_BASE = '/api/v1';
+const RAW_BASE = (import.meta.env.VITE_API_BASE_URL || '').replace(/\/$/, '');
+const API_BASE = RAW_BASE ? `${RAW_BASE}/api/v1` : '/api/v1';
 
 async function fetchJson<T>(url: string, options?: RequestInit): Promise<T> {
-  const response = await fetch(`${API_BASE}${url}`, {
-    headers: {
-      'Content-Type': 'application/json',
-      ...options?.headers,
-    },
-    ...options,
-  });
+  try {
+    const response = await fetch(`${API_BASE}${url}`, {
+      headers: {
+        'Content-Type': 'application/json',
+        ...options?.headers,
+      },
+      ...options,
+    });
 
-  if (!response.ok) {
-    let errorMsg = `HTTP Error ${response.status}: ${response.statusText}`;
-    try {
-      const errorJson = await response.json();
-      if (errorJson.detail) {
-        errorMsg = errorJson.detail;
+    if (!response.ok) {
+      let errorMsg = `HTTP Error ${response.status}: ${response.statusText}`;
+      try {
+        const errorJson = await response.json();
+        if (errorJson.detail) {
+          errorMsg = errorJson.detail;
+        }
+      } catch {
+        // Keep default errorMsg
       }
-    } catch {
-      // Keep default errorMsg
+      throw new Error(errorMsg);
     }
-    throw new Error(errorMsg);
-  }
 
-  return response.json();
+    return response.json();
+  } catch (err: any) {
+    if (err.name === 'TypeError' && String(err.message).toLowerCase().includes('fetch')) {
+      throw new Error(
+        'Không thể kết nối tới máy chủ Backend. Máy chủ có thể đang khởi động lại (Render Cold Start mất khoảng 50-60s), vui lòng đợi giây lát và thử lại!'
+      );
+    }
+    throw err;
+  }
 }
 
 export const api = {

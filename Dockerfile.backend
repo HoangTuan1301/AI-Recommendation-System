@@ -31,15 +31,19 @@ COPY backend/requirements.txt /app/requirements.txt
 RUN pip install --no-cache-dir -U pip setuptools wheel && \
     pip install --no-cache-dir -r requirements.txt
 
-# Copy source code and backend modules
+# Copy source code, modules, checkpoints, and utilities
 COPY --chown=appuser:appgroup backend /app/backend
 COPY --chown=appuser:appgroup src /app/src
+COPY --chown=appuser:appgroup app /app/app
+COPY --chown=appuser:appgroup models /app/models
+COPY --chown=appuser:appgroup scripts /app/scripts
 
-# Create mount points for external data and checkpoint volumes
+# Create mount points and directories for runtime data and checkpoints
 RUN mkdir -p /app/data/processed \
              /app/data/music/processed \
              /app/models/checkpoints/music \
-             /app/results && \
+             /app/results \
+             /app/reports/musicai && \
     chown -R appuser:appgroup /app
 
 # Switch to unprivileged user
@@ -47,8 +51,9 @@ USER appuser
 
 EXPOSE 8000
 
-# Health Check using FastAPI built-in health endpoint
-HEALTHCHECK --interval=30s --timeout=5s --start-period=15s --retries=3 \
-    CMD curl -f http://localhost:8000/api/v1/health || exit 1
+# Health Check supporting dynamic port
+HEALTHCHECK --interval=30s --timeout=5s --start-period=20s --retries=3 \
+    CMD curl -f http://localhost:${PORT:-8000}/api/v1/health || exit 1
 
-CMD ["uvicorn", "backend.app.main:app", "--host", "0.0.0.0", "--port", "8000", "--workers", "1"]
+# Start container: ensures model artifacts exist, then starts Uvicorn
+CMD ["sh", "-c", "python scripts/ensure_artifacts.py && uvicorn backend.app.main:app --host 0.0.0.0 --port ${PORT:-8000} --workers 1"]

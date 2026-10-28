@@ -12,6 +12,9 @@ for all 6 song-level recommendation models:
 Completely independent of CineAI's model registry to maintain domain isolation.
 """
 
+import os
+import sys
+import gc
 from pathlib import Path
 import logging
 import threading
@@ -216,6 +219,20 @@ class MusicModelRegistry:
                     f"Checkpoint file '{ckpt_path}' is corrupted (zero bytes)."
                 )
 
+            # Memory optimization: evict oldest cached model if exceeding cache limit
+            max_models = int(os.getenv("MAX_CACHED_MODELS", "2"))
+            if len(self._loaded_models) >= max_models:
+                evict_candidates = [m for m in self._loaded_models if m != self.default_model_id]
+                if evict_candidates:
+                    del self._loaded_models[evict_candidates[0]]
+                    gc.collect()
+                    if sys.platform.startswith("linux"):
+                        try:
+                            import ctypes
+                            ctypes.CDLL("libc.so.6").malloc_trim(0)
+                        except Exception:
+                            pass
+
             logger.info(f"Loading MusicAI model '{model_id}' from checkpoint: {ckpt_path}...")
             try:
                 model_cls = defn["class"]
@@ -246,6 +263,7 @@ class MusicModelRegistry:
                 self._loaded_models.pop(model_id, None)
             else:
                 self._loaded_models.clear()
+            gc.collect()
 
     def get_status(self) -> Dict[str, Any]:
         """Return overall registry diagnostic status."""

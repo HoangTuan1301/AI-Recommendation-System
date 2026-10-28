@@ -27,10 +27,11 @@ app = FastAPI(
     redoc_url="/redoc",
 )
 
-# CORS Middleware
+# CORS Middleware (Supports explicitly whitelisted origins and all Vercel frontend domains)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=settings.CORS_ORIGINS,
+    allow_origin_regex=r"https://.*\.vercel\.app",
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -67,17 +68,3 @@ def root():
         },
         "status": "online",
     }
-
-
-@app.exception_handler(Exception)
-async def global_exception_handler(request: Request, exc: Exception):
-    """Safely catch unhandled server errors without leaking internals."""
-    return JSONResponse(
-        status_code=500,
-        content={"detail": "An internal server error occurred.", "type": type(exc).__name__},
-    )
-
-
-if __name__ == "__main__":
-    import uvicorn
-    uvicorn.run("backend.app.main:app", host="0.0.0.0", port=8000, reload=True)

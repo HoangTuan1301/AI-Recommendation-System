@@ -3,6 +3,7 @@
 from pathlib import Path
 import sys
 import time
+import gc
 from typing import Any, Dict, List, Optional
 import joblib
 import pandas as pd
@@ -67,6 +68,19 @@ class ModelService:
         display_key = info["display_key"]
         if display_key in self.cached_models:
             return self.cached_models[display_key]
+
+        # Memory optimization: evict oldest cached model if exceeding cache limit
+        if len(self.cached_models) >= settings.MAX_CACHED_MODELS:
+            evict_candidates = [m for m in self.cached_models if m != "Neural CF (NeuMF)"]
+            if evict_candidates:
+                del self.cached_models[evict_candidates[0]]
+                gc.collect()
+                if sys.platform.startswith("linux"):
+                    try:
+                        import ctypes
+                        ctypes.CDLL("libc.so.6").malloc_trim(0)
+                    except Exception:
+                        pass
 
         # Load from checkpoint
         ckpt_path = CHECKPOINTS_DIR / f"{model_id}.pkl"

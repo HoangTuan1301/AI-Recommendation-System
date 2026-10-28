@@ -3,6 +3,7 @@ import { describe, it, expect, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 import { UserProvider } from '../context/UserContext';
+import { DomainProvider } from '../context/DomainContext';
 
 import { Navbar } from '../components/layout/Navbar';
 import { MovieCard } from '../components/movies/MovieCard';
@@ -55,11 +56,13 @@ const mockModels: ModelInfo[] = [
 describe('CineAI Component Unit Tests', () => {
   it('renders Navbar brand logo CineAI and nav links', () => {
     render(
-      <UserProvider>
-        <BrowserRouter>
-          <Navbar />
-        </BrowserRouter>
-      </UserProvider>
+      <DomainProvider>
+        <UserProvider>
+          <BrowserRouter>
+            <Navbar />
+          </BrowserRouter>
+        </UserProvider>
+      </DomainProvider>
     );
     expect(screen.getByText('CINE')).toBeInTheDocument();
     expect(screen.getByText('AI')).toBeInTheDocument();

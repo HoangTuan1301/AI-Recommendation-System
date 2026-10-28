@@ -1,186 +1,205 @@
-# AI-Recommendation-System (CineAI Platform)
-> Hệ thống gợi ý phim thông minh ứng dụng Trí tuệ nhân tạo (AI Recommendation System) với giao diện Netflix-Inspired hiện đại.
+# Multi-Domain AI Recommendation System (CineAI V2.0 + MusicAI)
 
-Dự án Bài tập lớn môn **Trí tuệ nhân tạo (AI)** - Học kỳ 5.  
-**Khoa Công nghệ Thông tin - Trường Đại học**  
-**Tác giả:** Đội ngũ Kỹ sư AI & Khoa học Dữ liệu K5  
+> Nền tảng Gợi ý Đa miền Thông minh (Multi-Domain AI Recommendation Platform) ứng dụng Trí tuệ nhân tạo và Học máy chuyên sâu, tích hợp hai miền giải trí hàng đầu: **Phim ảnh (CineAI)** và **Âm nhạc (MusicAI)** trong cùng một ứng dụng web cao cấp.
+
+Dự án Bài tập lớn môn **Trí tuệ nhân tạo (AI)** — Học kỳ 5
+**Khoa Công nghệ Thông tin — Trường Đại học**
+**Tác giả:** Đội ngũ Kỹ sư AI & Kiến trúc sư Phần mềm Full-Stack K5
 **GitHub:** [https://github.com/HoangTuan1301/AI-Recommendation-System](https://github.com/HoangTuan1301/AI-Recommendation-System)
 
 ---
 
-## 1. Giới thiệu Đề tài & Nền tảng CineAI
+## 1. Giới thiệu Tổng quan Nền tảng Đa miền
 
-Hệ thống khuyến nghị (Recommendation System) là phân nhánh quan trọng của Trí tuệ nhân tạo và Học máy, đóng vai trò cá nhân hóa trải nghiệm người dùng trên các nền tảng nội dung số (Netflix, Spotify, YouTube,...). Dự án nghiên cứu, thực nghiệm và so sánh toàn diện **10 mô hình AI gợi ý phim** trên bộ dữ liệu chuẩn mực quốc tế **MovieLens 100K**, được đánh giá theo **5 độ đo xếp hạng Top-N** và tích hợp trên hai nền tảng giao diện:
+Hệ thống khuyến nghị (Recommendation System) là phân nhánh cốt lõi của Trí tuệ nhân tạo, giúp giải quyết bài toán quá tải thông tin và cá nhân hóa trải nghiệm người dùng. Dự án mở rộng an toàn từ CineAI V2.0 thành nền tảng đa miền hoàn chỉnh, gồm **16 mô hình AI được huấn luyện và kiểm định khoa học**:
 
-1. **CineAI Full-Stack Platform (Primary):** Giao diện Netflix-inspired chuẩn điện ảnh bằng **React 19 + TypeScript + Vite + Tailwind CSS**, kết nối với backend hiệu năng cao **FastAPI** phục vụ suy luận thời gian thực từ checkpoint các mô hình AI.
-2. **Streamlit App (Fallback):** Giao diện Python thuần nhanh gọn (`app/streamlit_app.py`) phục vụ trình diễn và đối chiếu nhanh.
+1. **🎬 CineAI (Phim ảnh — Explicit Feedback):**
+   - Tập dữ liệu: **MovieLens 100K** (100.000 đánh giá 1–5 sao từ 943 người dùng trên 1.682 bộ phim).
+   - **10 mô hình AI:** Neural CF (NeuMF), Weighted Hybrid, User-Based CF, Item-Based CF, KNN Baseline, SVD++, Funk SVD, Popularity Baseline, Non-negative MF (NMF), Content-Based (TF-IDF).
+   - Giao diện Netflix-inspired chuẩn điện ảnh: Khám phá, Đề xuất cá nhân hóa, AI Lab & Benchmark, So sánh đối đầu (Model Battle).
 
----
+2. **🎵 MusicAI (Âm nhạc — Implicit Feedback):**
+   - Tập dữ liệu: **Million Song Dataset — Taste Profile** (MSD 10-core: 2.520 người dùng, 2.706 bài hát, 46.682 tương tác user–song).
+   - **6 mô hình AI:** Item-Based CF (Top 1 Benchmark), User-Based CF, Implicit ALS (Hu-Koren-Volinsky), Bayesian Personalized Ranking (BPR-MF), Implicit Neural CF (PyTorch NeuMF), Popularity Baseline.
+   - Gợi ý cá nhân hóa ở **cấp độ từng bài hát (`song_id`)**, loại trừ 100% bài hát đã nghe trong lịch sử huấn luyện (Deduplication), tự động chuyển sang Popularity khi gặp người dùng mới (Cold-Start Fallback).
 
-## 2. Bảng Xếp hạng Chính thức 10 Mô hình AI (Benchmark Leaderboard)
-
-Đánh giá thực nghiệm độc lập trên tập Test (**935 người dùng kiểm thử**, loại trừ 100% phim đã xem trong Train):
-
-| Hạng | Tên Mô hình | Họ Thuật toán | Precision@10 | Recall@10 | F1-Score@10 | NDCG@10 | Hit Rate@10 | Thời gian Eval |
-| :---: | :--- | :--- | :---: | :---: | :---: | :---: | :---: | :---: |
-| **1** | **Neural CF (NeuMF)** | **Deep Learning (GMF + MLP)** | **0.2251** | **0.2391** | **0.1898** | **0.3083** | **0.8203** | 2.27s |
-| **2** | **Hybrid (CF + CB)** | **Weighted Hybrid Ensemble** | **0.1475** | **0.1327** | **0.1164** | **0.1943** | **0.6578** | 8.35s |
-| 3 | User-Based CF | Memory-based CF (User KNN) | 0.1467 | 0.1352 | 0.1160 | 0.1948 | 0.6524 | 4.39s |
-| 4 | Item-Based CF | Memory-based CF (Item KNN) | 0.1247 | 0.1146 | 0.0979 | 0.1611 | 0.5904 | 4.70s |
-| 5 | KNNBaseline | Neighborhood CF with Biases | 0.1059 | 0.0816 | 0.0778 | 0.1316 | 0.5027 | 3.53s |
-| 6 | SVD++ | Matrix Factorization + Implicit | 0.0896 | 0.0701 | 0.0671 | 0.1089 | 0.4759 | 4.67s |
-| 7 | Funk SVD | Regularized Matrix Factorization | 0.0711 | 0.0508 | 0.0508 | 0.0715 | 0.4032 | 3.75s |
-| 8 | Popularity Baseline | Bayesian Weighted Rating | 0.0653 | 0.0497 | 0.0473 | 0.0764 | 0.3914 | 3.23s |
-| 9 | NMF | Non-Negative Matrix Factorization | 0.0542 | 0.0380 | 0.0387 | 0.0525 | 0.3316 | 3.32s |
-| 10 | Content-Based | TF-IDF Cosine Similarity | 0.0236 | 0.0199 | 0.0174 | 0.0296 | 0.1872 | 5.37s |
-
-> [!NOTE]
-> **Giải thích Hit Rate@10 = 82.03%:** Nghĩa là trong 935 người dùng kiểm thử, có đúng **82.03% người dùng nhận được ít nhất một bộ phim thực sự yêu thích ($r \ge 4.0$) trong danh sách Top 10 gợi ý**.
+3. **🔄 Domain Switcher (Chuyển đổi Ngữ cảnh Hai chiều):**
+   - Nút chuyển đổi tức thời giữa *Movies* (theme đỏ Netflix) và *Music* (theme xanh ngọc lục bảo Emerald).
+   - Tự động đồng bộ URL routing, menu điều hướng và bộ chọn người dùng mẫu theo miền.
 
 ---
 
-## 3. Kiến trúc Toàn diện (System Architecture)
+## 2. Bảng Xếp hạng Benchmark Khoa học của 16 Mô hình AI
+
+### A. CineAI: Bảng xếp hạng Top-10 trên Tập Test MovieLens 100K (N = 935 users)
+| Hạng | Tên Mô hình | Họ Thuật toán | Precision@10 | Recall@10 | NDCG@10 | Hit Rate@10 | Latency (ms) |
+|:---:|:---|:---|:---:|:---:|:---:|:---:|:---:|
+| **1** | **Neural CF (NeuMF)** | **Deep Learning (PyTorch)** | **0.2251** | **0.2391** | **0.3083** | **82.03%** | 11.54 ms |
+| **2** | **Hybrid Ensemble** | **Weighted Hybrid (CF + CB)** | **0.1475** | **0.1327** | **0.1943** | **65.78%** | 12.10 ms |
+| 3 | User-Based CF | Neighborhood CF (Pearson KNN) | 0.1467 | 0.1352 | 0.1948 | 65.24% | 10.71 ms |
+| 4 | Item-Based CF | Neighborhood CF (Adjusted Cosine) | 0.1247 | 0.1146 | 0.1611 | 59.04% | 10.85 ms |
+| 5 | KNN Baseline | Neighborhood with User/Item Biases | 0.1059 | 0.0816 | 0.1316 | 50.27% | 3.53 ms |
+| 6 | SVD++ | Matrix Factorization + Implicit History | 0.0896 | 0.0701 | 0.1089 | 47.59% | 4.67 ms |
+| 7 | Funk SVD | Regularized Matrix Factorization | 0.0711 | 0.0508 | 0.0715 | 40.32% | 3.75 ms |
+| 8 | Popularity Baseline | Bayesian Average Rating | 0.0653 | 0.0497 | 0.0764 | 39.14% | 2.15 ms |
+| 9 | NMF | Non-Negative Matrix Factorization | 0.0542 | 0.0380 | 0.0525 | 33.16% | 3.32 ms |
+| 10 | Content-Based | TF-IDF Cosine Similarity | 0.0236 | 0.0199 | 0.0296 | 18.72% | 5.37 ms |
+
+### B. MusicAI: Bảng xếp hạng Top-10 trên Tập Test Million Song Dataset (N = 2.520 users)
+| Hạng | Tên Mô hình | Họ Thuật toán | Precision@10 | Recall@10 | NDCG@10 | Hit Rate@10 | Coverage | Latency (ms) |
+|:---:|:---|:---|:---:|:---:|:---:|:---:|:---:|:---:|
+| **1** | **Item-Based CF** | **Item-Item Adjusted Cosine (Top-50)** | **0.0307** | **0.1544** | **0.1085** | **24.48%** | **93.20%** | **9.72 ms** |
+| **2** | **User-Based CF** | **User Taste Cosine Vectors** | **0.0297** | **0.1535** | **0.1075** | **23.89%** | 65.45% | 3.15 ms |
+| 3 | Implicit ALS (iALS) | Matrix Factorization (Confidence Log) | 0.0249 | 0.1377 | 0.0856 | 21.11% | 62.90% | 5.99 ms |
+| 4 | BPR-MF | Pairwise Margin Ranking Loss | 0.0201 | 0.1066 | 0.0674 | 16.43% | 71.32% | 5.64 ms |
+| 5 | Neural CF (NeuMF) | PyTorch Non-linear (GMF + MLP) | 0.0163 | 0.0886 | 0.0543 | 13.49% | 58.17% | 5.53 ms |
+| 6 | Popularity Baseline | Global Play Count Frequency | 0.0125 | 0.0672 | 0.0398 | 10.04% | 3.70% | 2.62 ms |
+
+---
+
+## 3. Cấu trúc Thư mục Dự án (Project Layout)
 
 ```text
 AI-Recommendation-System/
-├── backend/                      # High-performance FastAPI Backend Service
-│   └── app/
-│       ├── api/v1/               # REST API Routes: health, models, movies, users, recommendations, metrics, compare
-│       ├── core/                 # App Settings & CORS configurations
-│       ├── schemas/              # Pydantic v2 Request & Response Data Contracts
-│       ├── services/             # Model Checkpoint Loader, User/Movie Catalog & SVG Poster Generator
-│       └── main.py               # FastAPI ASGI Application Entrypoint
-├── frontend/                     # Modern React + TypeScript + Tailwind CSS Frontend
+├── backend/                      # Dịch vụ FastAPI Backend hiệu năng cao
+│   ├── app/
+│   │   ├── api/v1/               # Router CineAI (/api/v1/*) & MusicAI (/api/music/*)
+│   │   ├── core/                 # Cấu hình cài đặt, đường dẫn và CORS
+│   │   ├── schemas/              # Khế ước dữ liệu Pydantic v2 (Movies & Music)
+│   │   ├── services/             # Model Registry, Dịch vụ Phim, Dịch vụ Bài hát
+│   │   └── main.py               # Điểm khởi chạy ASGI FastAPI Server
+│   └── requirements.txt          # Dependencies tối giản cho Production Backend
+├── frontend/                     # Ứng dụng React + TypeScript + Tailwind CSS
 │   ├── src/
-│   │   ├── api/client.ts         # Axios/Fetch API client kết nối Backend
-│   │   ├── components/           # UI Components (Navbar, Footer, HeroBanner, MovieCard, Carousel, Modals)
-│   │   ├── context/UserContext   # State quản lý Active User ID (1-943) và User Modal
-│   │   ├── pages/                # 5 Views: Home, Discover, Recommendations, AILab, Profile
-│   │   └── test/                 # Vitest Component & Integration Tests (6/6 tests PASS)
-│   ├── index.html
-│   ├── package.json
-│   ├── tailwind.config.js        # Netflix Dark Design Tokens (#08090D, #E50914, #181A21)
-│   └── vite.config.ts            # Vite bundler với reverse proxy /api -> localhost:8000
-├── app/                          # Streamlit UI (Fallback)
-│   ├── model_loader.py           # Streamlit Checkpoint Loader
-│   └── streamlit_app.py          # Streamlit Multi-page App
-├── data/
-│   ├── raw/ml-100k/              # Dữ liệu thô MovieLens 100K
-│   └── processed/                # Dữ liệu sạch: train.csv, test.csv, movies_clean.csv
-├── models/
-│   └── checkpoints/              # Checkpoint đã serialize (.pkl) cho 10 mô hình
-├── reports/                      # Báo cáo kỹ thuật chi tiết các giai đoạn
-├── results/                      # Kết quả benchmark: phase4c_metrics.csv
-├── src/                          # Core AI Recommendation Algorithms & Evaluation Framework
-│   ├── data_loader.py
-│   ├── preprocessing.py
-│   ├── evaluation/               # Metrics, TopNEvaluator, Hyperparameter Tuning
-│   └── models/                   # 10 giải thuật AI khuyến nghị độc lập
-├── tests/                        # 85 bài kiểm thử tự động Python (100% PASS)
-├── README.md
-└── requirements.txt
+│   │   ├── components/           # UI Components (Navbar, DomainSwitcher, MovieCard, SongCard, Modals)
+│   │   ├── context/              # UserContext (CineAI) & DomainContext (MusicAI & Switcher)
+│   │   ├── pages/                # Route-based Lazy Loaded Pages (CineAI & MusicAI)
+│   │   ├── services/             # api.ts (CineAI Client) & musicApi.ts (MusicAI Client)
+│   │   └── test/                 # Vitest Component Unit Tests (11/11 tests PASS)
+│   ├── e2e_multidomain.cjs       # Playwright E2E Browser Test Suite (22/22 scenarios PASS)
+│   └── nginx.conf                # Nginx production reverse proxy & security headers
+├── data/                         # Thư mục dữ liệu (Được quản lý tách biệt)
+│   ├── processed/                # Dữ liệu CineAI đã làm sạch (movies_clean.csv, train.csv)
+│   └── music/processed/          # Dữ liệu MusicAI đã tiền xử lý (songs.csv, train.csv)
+├── models/checkpoints/           # Checkpoints CineAI (.pkl) & MusicAI (models/checkpoints/music/*.pkl)
+├── docker-compose.yml            # Điều phối Container Docker (Backend + Frontend)
+├── Dockerfile.backend            # Image Backend FastAPI (Python 3.11-slim, User appuser)
+├── Dockerfile.frontend           # Image Frontend Multi-stage (Node 20 -> Nginx Unprivileged)
+└── scripts/                      # Bộ công cụ kiểm toán, xác thực và đo đạc hiệu năng
 ```
 
 ---
 
-## 4. Hướng dẫn Cài đặt & Khởi chạy
+## 4. Hướng dẫn Cài đặt và Chạy Hệ thống
 
-### Bước 1: Môi trường Python & Thư viện Backend
-```powershell
-# Di chuyển vào thư mục dự án
-cd E:\HOCTAP\K5\TTNT\AI-Recommendation-System
+### 4.1. Chuẩn bị Tiền điều kiện
+- **Python:** 3.11+
+- **Node.js:** v20+ hoặc v24+
+- **Docker & Docker Compose:** (Nếu muốn chạy container hóa)
 
-# Tạo và kích hoạt môi trường ảo (nếu chưa có)
+### 4.2. Clone Repository & Cài đặt Môi trường
+```bash
+# 1. Clone repository
+git clone https://github.com/HoangTuan1301/AI-Recommendation-System.git
+cd AI-Recommendation-System
+
+# 2. Thiết lập Python Virtual Environment
 python -m venv .venv
+# Trên Windows:
 .\.venv\Scripts\Activate.ps1
+# Trên Linux/macOS:
+source .venv/bin/activate
 
-# Cài đặt thư viện phụ thuộc
-python -m pip install --upgrade pip
+# 3. Cài đặt Python Dependencies
 pip install -r requirements.txt
-```
 
-### Bước 2: Khởi chạy FastAPI Backend (Port 8000)
-Mở một cửa sổ Terminal 1:
-```powershell
-.\.venv\Scripts\Activate.ps1
-uvicorn backend.app.main:app --reload --port 8000
-```
-- API Docs tự động (Swagger UI): `http://localhost:8000/docs`
-- Health check: `http://localhost:8000/api/v1/health`
-
-### Bước 3: Cài đặt và Khởi chạy React Frontend (Port 5173)
-Mở một cửa sổ Terminal 2:
-```powershell
+# 4. Cài đặt Frontend Dependencies
 cd frontend
 npm install
+cd ..
+```
+
+### 4.3. Xác thực Dữ liệu và Checkpoints
+> [!IMPORTANT]
+> **Tự động vs Cung cấp thủ công:**
+> - Checkpoints và Dữ liệu đã xử lý được lưu trữ tại `models/checkpoints/` và `data/` (bị Git bỏ qua theo chuẩn ML).
+> - Trước khi khởi động, chạy script kiểm tra toàn vẹn để đảm bảo 16 mô hình và các tệp dữ liệu đã sẵn sàng:
+
+```bash
+python scripts/verify_production_artifacts.py
+```
+*Kết quả hợp lệ:* `OVERALL ARTIFACT STATUS: ALL VERIFIED (PASS)` (16/16 checkpoints OK, 8/8 datasets OK).
+
+---
+
+## 5. Khởi động Ứng dụng
+
+### Cách 1: Khởi động Trực tiếp (Local Development)
+
+**Cửa sổ dòng lệnh 1 — Khởi động FastAPI Backend (Port 8000):**
+```bash
+python -m uvicorn backend.app.main:app --host 127.0.0.1 --port 8000
+```
+- Tài liệu tương tác Swagger UI: `http://127.0.0.1:8000/docs`
+- Kiểm tra sức khỏe hệ thống: `http://127.0.0.1:8000/api/v1/health`
+
+**Cửa sổ dòng lệnh 2 — Khởi động React Frontend (Port 5173):**
+```bash
+cd frontend
 npm run dev
 ```
-Truy cập giao diện CineAI tại: `http://localhost:5173`
-
-*(Tùy chọn) Chạy giao diện Streamlit Fallback (Port 8501):*
-```powershell
-python -m streamlit run app/streamlit_app.py
-```
+- Mở trình duyệt tại: `http://localhost:5173`
 
 ---
 
-## 5. Trải nghiệm 5 Chức năng Chính trên CineAI
+### Cách 2: Khởi động bằng Docker Compose (Khuyến nghị cho Production)
 
-1. **🏠 Home Page (Trang chủ Điện ảnh):**
-   - Hero banner động giới thiệu tác phẩm đề xuất chất lượng cao kèm tóm tắt và thể loại.
-   - Các hàng phim băng chuyền (Carousels): *Top Rated Masterpieces*, *Trending on CineAI*, *Deep Learning AI Top Picks*.
-   - Modal xem chi tiết phim với tỷ lệ đánh giá và các tác phẩm tương tự.
+```bash
+# Xây dựng và khởi chạy 2 containers ở chế độ nền
+docker compose up -d --build
 
-2. **🔍 Discover Page (Khám phá & Bộ lọc):**
-   - Tìm kiếm phim theo tên theo thời gian thực (Debounced search).
-   - Bộ lọc đa thể loại (Action, Sci-Fi, Drama, Romance,...).
-   - Sắp xếp linh hoạt theo Đánh giá cao nhất, Đánh giá nhiều nhất, Phim mới nhất, hoặc Tên A-Z.
-
-3. **🤖 AI Recommendations (Gợi ý Cá nhân hóa Đa Mô hình):**
-   - Cho phép chọn bất kỳ mô hình nào trong **10 mô hình AI** thuộc 5 họ thuật toán.
-   - Lựa chọn độ dài danh sách (Top 5, 10, 20).
-   - Giải thích minh bạch ngữ nghĩa điểm số (Score Semantics) và độ phức tạp tính toán $O(\cdot)$.
-   - Loại trừ 100% các phim người dùng đã xem trong tập Train.
-
-4. **🔬 AI Lab & Benchmark (Phòng Thí nghiệm AI):**
-   - Bảng xếp hạng chính thức (Leaderboard) sắp xếp theo từng độ đo Top-N.
-   - Biểu đồ tương tác đa độ đo (Precision, Recall, F1, NDCG, Hit Rate).
-   - **Model Battle (So găng 2 Mô hình):** So sánh trực tiếp danh sách Top-10 giữa 2 mô hình bất kỳ cho một người dùng, tự động tính hệ số tương đồng Jaccard và làm nổi bật các phim đồng thuận.
-   - Giải thích chi tiết toán học và ý nghĩa các độ đo khuyến nghị.
-
-5. **👤 User Profile (Hồ sơ Sở thích):**
-   - Trình chuyển đổi người dùng nhanh (Quick User Switcher từ 1 đến 943).
-   - Thống kê hồ sơ dựa trên lịch sử xem thực tế trong Train: Tổng số phim đã xem, điểm trung bình, phân bố sao và top thể loại ưa thích.
+# Kiểm tra trạng thái sức khỏe
+docker compose ps
+```
+- **Web App (Nginx SPA + Reverse Proxy):** `http://localhost:3000`
+- **FastAPI Backend:** `http://localhost:8000/docs`
 
 ---
 
-## 6. Kiểm thử Tự động & Đảm bảo Chất lượng (Quality Assurance)
+## 6. Hướng dẫn Kiểm thử Toàn bộ Hệ thống (Testing Suite)
 
-Dự án sở hữu bộ kiểm thử tự động toàn diện từ Core AI, Backend REST API cho tới Frontend Component:
+Dự án sở hữu quy trình kiểm định chất lượng phần mềm nghiêm ngặt với 4 tầng kiểm thử:
 
-### A. Kiểm thử Python (85 Tests - 100% PASS)
-Bao gồm kiểm tra không rò rỉ dữ liệu (No Data Leakage), tính chính xác toán học của 10 mô hình, tính toàn vẹn của tập dữ liệu và toàn bộ 9 REST endpoints của FastAPI:
-```powershell
-.\.venv\Scripts\python.exe -m unittest discover -s tests -v
+### A. Kiểm thử Pytest Backend (134 Tests — 100% PASS)
+Kiểm thử toàn vẹn hợp đồng API, thuật toán 16 mô hình, lazy loading, và không rò rỉ dữ liệu:
+```bash
+pytest tests/ -q
 ```
-*Kết quả:* **Ran 85 tests in ~21s — OK**.
+*Kết quả:* `134 passed in ~35s`.
 
-### B. Kiểm thử Frontend (Vitest - 100% PASS)
-Bao gồm kiểm tra Render Navbar, MovieCard, thẻ gợi ý với điểm số và rank, bảng chỉ số AI Lab, bộ lọc và context chuyển đổi người dùng:
-```powershell
+### B. Kiểm thử Vitest Frontend (11 Tests — 100% PASS)
+Kiểm thử giao diện CineAI, Domain Switcher, SongCard, MusicModelSelector, và Leaderboard:
+```bash
 cd frontend
-npm test -- --run
+npx vitest run
 ```
-*Kết quả:* **6 / 6 tests PASSED**.
+*Kết quả:* `11 passed (2 test files) in 1.2s`.
 
-### C. Build Production Frontend
-```powershell
+### C. Kiểm thử E2E Thực tế trên Trình duyệt bằng Playwright (22 Scenarios — 100% PASS)
+Thực hiện 15 kịch bản tương tác người dùng thực tế với backend và frontend thật:
+```bash
 cd frontend
-npm run build
+node e2e_multidomain.cjs
 ```
-*Kết quả:* Biên dịch TypeScript và đóng gói Vite thành công (`dist/` tối ưu hoá sẵn sàng triển khai).
+*Kết quả:* `22 passed, 0 failed, 0 console errors, 0 network errors`. Ảnh chụp màn hình lưu tại `reports/screenshots/e2e_m6/`.
+
+### D. Đo đạc Hiệu năng & Bộ nhớ Thực tế
+```bash
+python scripts/benchmark_m6_performance.py
+```
+*Kết quả:* Thời gian đáp ứng API P95 < 15ms; Bộ nhớ RAM tiêu thụ 61.5 MB RSS.
 
 ---
 
 ## 7. Giấy phép & Thông tin Đóng góp
-Dự án được phát triển phục vụ mục đích nghiên cứu, học tập trong khuôn khổ môn học Trí tuệ nhân tạo (Học kỳ 5). Mọi mã nguồn tuân thủ giấy phép mã nguồn mở MIT.
+Dự án được nghiên cứu và phát triển trong khuôn khổ môn học Trí tuệ nhân tạo (Học kỳ 5). Toàn bộ mã nguồn tuân thủ giấy phép mã nguồn mở MIT.

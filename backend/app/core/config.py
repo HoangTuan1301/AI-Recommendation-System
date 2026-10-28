@@ -1,5 +1,8 @@
 """Core Configuration for CineAI FastAPI Backend."""
 
+import os
+os.environ.setdefault("OPENBLAS_NUM_THREADS", "1")
+
 from pathlib import Path
 from typing import List
 from pydantic import BaseModel
@@ -12,11 +15,16 @@ class Settings(BaseModel):
     VERSION: str = "1.0.0"
     API_V1_STR: str = "/api/v1"
     
-    # Paths
+    # Paths - CineAI (Movies)
     REPO_ROOT_PATH: Path = REPO_ROOT
     DATA_PROCESSED_PATH: Path = REPO_ROOT / "data" / "processed"
     CHECKPOINTS_PATH: Path = REPO_ROOT / "models" / "checkpoints"
     RESULTS_PATH: Path = REPO_ROOT / "results"
+    
+    # Paths - MusicAI (Songs)
+    DATA_MUSIC_PATH: Path = REPO_ROOT / "data" / "music" / "processed"
+    MUSIC_CHECKPOINTS_PATH: Path = REPO_ROOT / "models" / "checkpoints" / "music"
+    DEFAULT_MUSIC_MODEL: str = "item_cf"
     
     # CORS
     CORS_ORIGINS: List[str] = [

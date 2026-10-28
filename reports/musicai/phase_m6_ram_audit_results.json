@@ -1,0 +1,102 @@
+{
+  "stage1_cold_startup": {
+    "rss_mb": 71.79,
+    "vms_mb": 51.25,
+    "cpu_percent": 75.6,
+    "num_processes": 2
+  },
+  "stage2_two_models": {
+    "rss_mb": 125.77,
+    "vms_mb": 101.07,
+    "cpu_percent": 99.7,
+    "num_processes": 2
+  },
+  "stage3_all_16_models": {
+    "rss_mb": 277.28,
+    "vms_mb": 242.78,
+    "cpu_percent": 99.7,
+    "num_processes": 2
+  },
+  "model_load_timings": {
+    "cine_popularity": {
+      "name": "Popularity Baseline",
+      "cold_ms": 10.06,
+      "warm_ms": 14.03
+    },
+    "cine_user_cf": {
+      "name": "User-Based CF",
+      "cold_ms": 14.72,
+      "warm_ms": 14.77
+    },
+    "cine_item_cf": {
+      "name": "Item-Based CF",
+      "cold_ms": 16.76,
+      "warm_ms": 16.34
+    },
+    "cine_knn_baseline": {
+      "name": "KNN Baseline",
+      "cold_ms": 41.84,
+      "warm_ms": 25.7
+    },
+    "cine_svd": {
+      "name": "Funk SVD",
+      "cold_ms": 13.77,
+      "warm_ms": 11.87
+    },
+    "cine_svdpp": {
+      "name": "SVD++",
+      "cold_ms": 11.99,
+      "warm_ms": 11.75
+    },
+    "cine_nmf": {
+      "name": "NMF",
+      "cold_ms": 12.46,
+      "warm_ms": 12.33
+    },
+    "cine_content_based": {
+      "name": "Content-Based",
+      "cold_ms": 18.45,
+      "warm_ms": 17.93
+    },
+    "cine_neural_cf": {
+      "name": "Neural CF (NeuMF)",
+      "cold_ms": 18.8,
+      "warm_ms": 16.77
+    },
+    "cine_hybrid": {
+      "name": "Hybrid Ensemble",
+      "cold_ms": 22.21,
+      "warm_ms": 21.62
+    },
+    "music_popularity": {
+      "name": "Popularity Baseline",
+      "cold_ms": 3.74,
+      "warm_ms": 3.82
+    },
+    "music_item_cf": {
+      "name": "Item-Based CF",
+      "cold_ms": 15.03,
+      "warm_ms": 15.71
+    },
+    "music_user_cf": {
+      "name": "User-Based CF",
+      "cold_ms": 4.24,
+      "warm_ms": 3.96
+    },
+    "music_ials": {
+      "name": "Implicit ALS",
+      "cold_ms": 10.17,
+      "warm_ms": 9.75
+    },
+    "music_bpr_mf": {
+      "name": "BPR-MF",
+      "cold_ms": 9.24,
+      "warm_ms": 7.61
+    },
+    "music_implicit_neural_cf": {
+      "name": "Neural CF (NeuMF)",
+      "cold_ms": 7.31,
+      "warm_ms": 6.71
+    }
+  }
+}

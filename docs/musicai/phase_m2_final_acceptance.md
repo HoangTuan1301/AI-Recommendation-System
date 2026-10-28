@@ -31,7 +31,7 @@ This document provides the formal final acceptance audit for **Phase M2: Song-Le
 
 | Ref | Criterion | Verification Method | Evidence / Output | Status |
 | :--- | :--- | :--- | :--- | :---: |
-| **A1** | **Real Implicit Training** | Inspect code and training logs | All 6 models fit strictly on `data/music/processed/train.csv` (36,994 interactions, confidence weighted by listening count $c_{ui} = 1 + \alpha r_{ui}$ where $\alpha = 40.0$). | **PASS** |
+| **A1** | **Real Implicit Training** | Inspect code and training logs | All 6 models fit strictly on `data/music/processed/train.csv` (36,994 interactions, confidence weighted by listening count via logarithmic transformation $c_{ui} = 1 + \alpha \ln(1 + r_{ui})$ where $\alpha = 40.0$). | **PASS** |
 | **A2** | **Checkpoint Persistence** | Check file existence and byte sizes | All 6 checkpoints exist in `models/checkpoints/music/`: `popularity.pkl` (1,212,666 B), `item_cf.pkl` (4,130,649 B), `user_cf.pkl` (3,164,283 B), `ials.pkl` (1,922,394 B), `bpr_mf.pkl` (1,922,592 B), `implicit_neumf.pkl` (2,634,021 B). | **PASS** |
 | **A3** | **Checkpoint Load & Inference** | Automated reload and inference test | Checkpoint loaders rehydrate models into clean memory. `recommend(user_id, top_k=10)` executes synchronously across all 6 models. | **PASS** |
 | **A4** | **Recommendation Validity** | Inspect output formatting and constraints | For 100% of tested users, recommendations return exactly $K=10$ string `song_id`s, with 0 duplicates, 0 items from user training history (`seen_items`), and 0 `NaN`/`Inf` scores. | **PASS** |
@@ -103,7 +103,7 @@ The model predicts a Top-10 list where items appear at positions:
 | **D2** | **Hardware & OS Profile** | System introspection | Windows-10 (Build 10.0.26200-SP0), Intel/AMD x86_64 CPU. | **PASS** |
 | **D3** | **Core Library Versions** | Inspect runtime package versions | Python: 3.11.9 <br> PyTorch: 2.14.1+cpu <br> NumPy: 2.4.6 <br> SciPy: 1.17.1 <br> Pandas: 3.1.0 <br> Scikit-Learn: 1.9.1 | **PASS** |
 | **D4** | **Execution Runtime** | Timing logs during training pipeline | Total training for all 6 models: **63.02s** on single CPU (Item-CF: 0.37s, User-CF: 0.43s, iALS: 3.35s, BPR-MF: 2.02s, NeuMF: 56.70s, Popularity: 0.13s). | **PASS** |
-| **D5** | **Peak Memory Footprint** | Monitor process RSS | Peak memory consumption during full 6-model training < 450 MB RAM. | **PASS** |
+| **D5** | **Peak Memory Footprint** | Monitor process RSS | Peak memory consumption: classical models < 436 MB RAM, deep neural network (NeuMF) peak 528.8 MB RAM (overall peak < 530 MB). | **PASS** |
 
 ---
 

@@ -25,6 +25,6 @@
 - `popularity.pkl`: Vector trọng số độ phổ biến toàn cục.
 - `item_cf.pkl`: Ma trận kề Cosine Top-50 láng giềng kèm tra cứu confidence.
 - `user_cf.pkl`: Ma trận kề người dùng Top-50 kèm ma trận tương tác thưa.
-- `ials.pkl`: Nhân tố người dùng $X \in \mathbb{R}^{2520 	imes 32}$ và nhân tố bài hát $Y \in \mathbb{R}^{2706 	imes 32}$.
-- `bpr_mf.pkl`: Trọng số nhúng BPR $W \in \mathbb{R}^{2520 	imes 32}$ và $H \in \mathbb{R}^{2706 	imes 32}$.
+- `ials.pkl`: Nhân tố người dùng $X \in \mathbb{R}^{2520 \times 32}$ và nhân tố bài hát $Y \in \mathbb{R}^{2706 \times 32}$.
+- `bpr_mf.pkl`: Trọng số nhúng BPR $W \in \mathbb{R}^{2520 \times 32}$ và $H \in \mathbb{R}^{2706 \times 32}$.
 - `implicit_neumf.pkl`: Toàn bộ cấu trúc và trọng số PyTorch GMF + MLP.

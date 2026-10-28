@@ -8,7 +8,6 @@ import {
   RotateCw,
   Clock,
   CheckCircle2,
-  SlidersHorizontal,
 } from 'lucide-react';
 import { useDomain, SAMPLE_MUSIC_USERS } from '../context/DomainContext';
 import { musicApi } from '../services/musicApi';

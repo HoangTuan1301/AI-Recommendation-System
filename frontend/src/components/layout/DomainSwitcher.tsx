@@ -4,7 +4,7 @@ import { Film, Music } from 'lucide-react';
 import { useDomain, AppDomain } from '../../context/DomainContext';
 
 export const DomainSwitcher: React.FC = () => {
-  const { activeDomain, setActiveDomain } = useDomain();
+  const { setActiveDomain } = useDomain();
   const navigate = useNavigate();
   const location = useLocation();
 

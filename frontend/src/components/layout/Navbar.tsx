@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { Search, User, Menu, X, Sparkles, ChevronDown, Music, History } from 'lucide-react';
+import { Search, User, Menu, X, Sparkles, ChevronDown, History } from 'lucide-react';
 import { useUser } from '../../context/UserContext';
 import { useDomain, SAMPLE_MUSIC_USERS } from '../../context/DomainContext';
 import { DomainSwitcher } from './DomainSwitcher';

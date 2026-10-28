@@ -1,0 +1,65 @@
+# ==============================================================================
+# Multi-Domain AI Recommendation System (CineAI V2.0 + MusicAI)
+# Docker Compose Orchestration (Development / Staging / Production)
+# ==============================================================================
+
+version: '3.8'
+
+services:
+  # ----------------------------------------------------------------------------
+  # FastAPI Unified Recommendation Backend (10 CineAI Models + 6 MusicAI Models)
+  # ----------------------------------------------------------------------------
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile.backend
+    container_name: multidomain-ai-backend
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    environment:
+      - OPENBLAS_NUM_THREADS=1
+      - MKL_NUM_THREADS=1
+      - OMP_NUM_THREADS=1
+      - PYTHONUNBUFFERED=1
+    volumes:
+      # Mount read-only processed datasets and model checkpoints
+      - ./data/processed:/app/data/processed:ro
+      - ./data/music/processed:/app/data/music/processed:ro
+      - ./models/checkpoints:/app/models/checkpoints:ro
+      - ./results:/app/results:ro
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/api/v1/health"]
+      interval: 20s
+      timeout: 5s
+      retries: 3
+      start_period: 15s
+    networks:
+      - recommendation-net
+
+  # ----------------------------------------------------------------------------
+  # React + TypeScript + Tailwind CSS Frontend (Nginx SPA + Reverse Proxy)
+  # ----------------------------------------------------------------------------
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+    container_name: multidomain-ai-frontend
+    restart: unless-stopped
+    ports:
+      - "3000:8080"
+    depends_on:
+      backend:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://localhost:8080/"]
+      interval: 20s
+      timeout: 5s
+      retries: 3
+      start_period: 5s
+    networks:
+      - recommendation-net
+
+networks:
+  recommendation-net:
+    driver: bridge

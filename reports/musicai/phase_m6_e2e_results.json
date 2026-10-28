@@ -1,0 +1,119 @@
+{
+  "total_scenarios": 22,
+  "passed_scenarios": 22,
+  "failed_scenarios": 0,
+  "scenarios": [
+    {
+      "name": "CineAI Brand Logo renders",
+      "passed": true,
+      "details": "Found: CINEAI"
+    },
+    {
+      "name": "CineAI Discover page loads movie catalog",
+      "passed": true,
+      "details": "Url: http://127.0.0.1:5173/discover"
+    },
+    {
+      "name": "Navigate to CineAI Recommendations",
+      "passed": true,
+      "details": ""
+    },
+    {
+      "name": "CineAI recommendations generated with real inference",
+      "passed": true,
+      "details": "Rank #1 visible: true, Count: 10"
+    },
+    {
+      "name": "URL redirects to MusicAI domain",
+      "passed": true,
+      "details": "Url: http://127.0.0.1:5173/music"
+    },
+    {
+      "name": "Navbar logo switches dynamically to MUSIC",
+      "passed": true,
+      "details": "Brand: MUSICAI"
+    },
+    {
+      "name": "Navigate to Music Recommendations Page",
+      "passed": true,
+      "details": ""
+    },
+    {
+      "name": "Received Top-10 song recommendations",
+      "passed": true,
+      "details": "Songs count: 10"
+    },
+    {
+      "name": "Rank #1 song card displayed",
+      "passed": true,
+      "details": ""
+    },
+    {
+      "name": "All 6 MusicAI models infer successfully and update songs",
+      "passed": true,
+      "details": ""
+    },
+    {
+      "name": "Song title and artist populated from real MSD catalog",
+      "passed": true,
+      "details": "\"Generated Top-10 Recommendations\" by \"Engine: item_cf\""
+    },
+    {
+      "name": "Song Detail Modal opens with real metadata & play statistics",
+      "passed": true,
+      "details": ""
+    },
+    {
+      "name": "Song Detail Modal closes cleanly",
+      "passed": true,
+      "details": ""
+    },
+    {
+      "name": "Listening History Modal opens showing training interactions",
+      "passed": true,
+      "details": "Recorded songs: 18"
+    },
+    {
+      "name": "Zero overlap between training history and recommended songs (Deduplication)",
+      "passed": true,
+      "details": "Overlap count: 0"
+    },
+    {
+      "name": "Cold-Start fallback activates with popularity recommender",
+      "passed": true,
+      "details": "Banner visible: true, Songs: 10"
+    },
+    {
+      "name": "Application cleanly recovers from fallback to personalized mode",
+      "passed": true,
+      "details": ""
+    },
+    {
+      "name": "Domain Switcher returns to CineAI with Movies theme",
+      "passed": true,
+      "details": "Brand: true"
+    },
+    {
+      "name": "Tablet viewport (768x1024) renders responsive song grid",
+      "passed": true,
+      "details": "Cards: 10"
+    },
+    {
+      "name": "Mobile viewport (375x812) renders responsive song cards",
+      "passed": true,
+      "details": "Cards: 10"
+    },
+    {
+      "name": "Direct URL deep-linking works across all multi-domain routes",
+      "passed": true,
+      "details": ""
+    },
+    {
+      "name": "Page reload maintains active music domain and song catalog",
+      "passed": true,
+      "details": ""
+    }
+  ],
+  "console_errors": [],
+  "network_errors": []
+}

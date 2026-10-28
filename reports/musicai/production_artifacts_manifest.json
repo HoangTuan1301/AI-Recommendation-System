@@ -1,0 +1,145 @@
+{
+  "total_checkpoints": 16,
+  "cine_checkpoints": [
+    {
+      "name": "popularity.pkl",
+      "exists": true,
+      "size_kb": 317.0419921875,
+      "sha256": "cf8904ed086058525658370e314d78d623ca21113e0b3aee1cb74a8c2be29a9e"
+    },
+    {
+      "name": "user_cf.pkl",
+      "exists": true,
+      "size_kb": 5030.83203125,
+      "sha256": "f4d84a06d86b5fe4c0ec99e16799c310459a8e7506a3b90c20fe4d327a8c4aad"
+    },
+    {
+      "name": "item_cf.pkl",
+      "exists": true,
+      "size_kb": 2344.5,
+      "sha256": "9312d159a31a698648a8326a58a7d1cd1f0dbdef975fdad8df5179ab261492e4"
+    },
+    {
+      "name": "knn_baseline.pkl",
+      "exists": true,
+      "size_kb": 2364.171875,
+      "sha256": "8dbddab252e0acd5a7bbfebc47f0cd9402179c3881b57c1aef4adc7804648a40"
+    },
+    {
+      "name": "svd.pkl",
+      "exists": true,
+      "size_kb": 582.3515625,
+      "sha256": "c5b1eb5ade518e1e9d0a5960616db7d43e914091a419491d7028a947899c431e"
+    },
+    {
+      "name": "svdpp.pkl",
+      "exists": true,
+      "size_kb": 787.529296875,
+      "sha256": "b1fb718cae3a6a027225a0ca215299c060417935e8198794ce2bb8f9a48554fb"
+    },
+    {
+      "name": "nmf.pkl",
+      "exists": true,
+      "size_kb": 889.9765625,
+      "sha256": "00cff6362c019896ec728303c892e6c94f27afe9e08c8541261a96dabc936a9e"
+    },
+    {
+      "name": "content_based.pkl",
+      "exists": true,
+      "size_kb": 24971.7431640625,
+      "sha256": "b99430c78d18e72b3ec3b58b61a7091318acc67c725d77d2275b0d89cee8393c"
+    },
+    {
+      "name": "neural_cf.pkl",
+      "exists": true,
+      "size_kb": 1463.9892578125,
+      "sha256": "9fb9c25aaf61eaf6480d4f66fe1de691195ee89c617eb63a2d8a75bd6fc50eff"
+    },
+    {
+      "name": "hybrid.pkl",
+      "exists": true,
+      "size_kb": 30276.9140625,
+      "sha256": "db79d05aea99d34199f73079771abdc67f297ec213f52b8767f29110e6163b8a"
+    }
+  ],
+  "music_checkpoints": [
+    {
+      "name": "popularity.pkl",
+      "exists": true,
+      "size_kb": 1184.244140625,
+      "sha256": "ca60bea951a5d42a812046fc9c0a0133ade195a9dcb05dfc29d4d5a590d98845"
+    },
+    {
+      "name": "item_cf.pkl",
+      "exists": true,
+      "size_kb": 4033.8369140625,
+      "sha256": "b4dde1c5096c553ff693394223e6ae81667ece8950c39552012995b5ef5ae8b0"
+    },
+    {
+      "name": "user_cf.pkl",
+      "exists": true,
+      "size_kb": 3090.1201171875,
+      "sha256": "274749f99ee7dbce34ea8420935951eb87e3b380b4e5a0ed007f4043d2aa77c4"
+    },
+    {
+      "name": "ials.pkl",
+      "exists": true,
+      "size_kb": 1877.337890625,
+      "sha256": "913d8558bc833d7da0ace655b55d7f2337c94aa742a170fdd1d2a3d038fd2361"
+    },
+    {
+      "name": "bpr_mf.pkl",
+      "exists": true,
+      "size_kb": 1877.53125,
+      "sha256": "cd2e3de247f4468fa10129ce2433efd01b8605336e9aaef86d33b137e531d434"
+    },
+    {
+      "name": "implicit_neumf.pkl",
+      "exists": true,
+      "size_kb": 2572.2861328125,
+      "sha256": "59348528553c19e9951db1b4bfe133df6d5f3e8cccf4ad4bb67f80a434486328"
+    }
+  ],
+  "datasets": [
+    {
+      "path": "data\\processed\\movies_clean.csv",
+      "exists": true,
+      "size_kb": 264.697265625
+    },
+    {
+      "path": "data\\processed\\train.csv",
+      "exists": true,
+      "size_kb": 1937.279296875
+    },
+    {
+      "path": "data\\processed\\test.csv",
+      "exists": true,
+      "size_kb": 483.8798828125
+    },
+    {
+      "path": "data\\processed\\val.csv",
+      "exists": true,
+      "size_kb": 386.9072265625
+    },
+    {
+      "path": "data\\music\\processed\\train.csv",
+      "exists": true,
+      "size_kb": 2278.60546875
+    },
+    {
+      "path": "data\\music\\processed\\validation.csv",
+      "exists": true,
+      "size_kb": 298.3642578125
+    },
+    {
+      "path": "data\\music\\processed\\test.csv",
+      "exists": true,
+      "size_kb": 298.3662109375
+    },
+    {
+      "path": "data\\music\\processed\\songs.csv",
+      "exists": true,
+      "size_kb": 188.5029296875
+    }
+  ]
+}

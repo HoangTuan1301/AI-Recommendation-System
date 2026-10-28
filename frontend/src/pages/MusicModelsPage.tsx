@@ -1,5 +1,5 @@
 import React from 'react';
-import { Award, BarChart3, Cpu, Sparkles, CheckCircle2, ShieldCheck, Zap } from 'lucide-react';
+import { Award, BarChart3, Sparkles, CheckCircle2, ShieldCheck, Zap } from 'lucide-react';
 
 export const MusicModelsPage: React.FC = () => {
   const leaderboard = [

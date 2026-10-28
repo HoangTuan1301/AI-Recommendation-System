@@ -6,8 +6,6 @@ import { DomainProvider, useDomain } from '../context/DomainContext';
 import { DomainSwitcher } from '../components/layout/DomainSwitcher';
 import { SongCard } from '../components/music/SongCard';
 import { MusicModelSelector } from '../components/music/MusicModelSelector';
-import { SongDetailModal } from '../components/music/SongDetailModal';
-import { MusicUserHistoryModal } from '../components/music/MusicUserHistoryModal';
 import { MusicModelsPage } from '../pages/MusicModelsPage';
 import { MusicModelInfo, RecommendedSong } from '../types/music';
 

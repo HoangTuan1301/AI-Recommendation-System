@@ -1,5 +1,8 @@
 """FastAPI Application Entry Point for CineAI."""
 
+import os
+os.environ.setdefault("OPENBLAS_NUM_THREADS", "1")
+
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
@@ -13,6 +16,7 @@ from backend.app.api.v1 import (
     recommendations,
     metrics,
     compare,
+    music,
 )
 
 app = FastAPI(
@@ -32,7 +36,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Include v1 Routers
+# Include v1 Routers (CineAI Movie Recommendation)
 api_v1 = settings.API_V1_STR
 app.include_router(health.router, prefix=api_v1)
 app.include_router(models.router, prefix=api_v1)
@@ -42,14 +46,25 @@ app.include_router(recommendations.router, prefix=api_v1)
 app.include_router(metrics.router, prefix=api_v1)
 app.include_router(compare.router, prefix=api_v1)
 
+# Include MusicAI Routers (Mounted under both /api/music and /api/v1/music for multi-domain support)
+app.include_router(music.router, prefix="/api/music")
+app.include_router(music.router, prefix=f"{api_v1}/music")
+
 
 @app.get("/")
 def root():
     return {
-        "app": settings.PROJECT_NAME,
+        "app": "Multi-Domain AI Recommendation System (CineAI + MusicAI)",
         "version": settings.VERSION,
         "docs": "/docs",
-        "api_v1": api_v1,
+        "domains": {
+            "movies": {"api_v1": api_v1, "service": "CineAI"},
+            "music": {
+                "api_direct": "/api/music",
+                "api_v1": f"{api_v1}/music",
+                "service": "MusicAI",
+            },
+        },
         "status": "online",
     }
 

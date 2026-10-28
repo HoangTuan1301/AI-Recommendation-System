@@ -1,0 +1,137 @@
+{
+  "timestamp": "2026-10-28 06:55:08",
+  "api_endpoints_tested": {
+    "health": {
+      "status": 200,
+      "latency_ms": 2039.28,
+      "valid": true
+    },
+    "models": {
+      "status": 200,
+      "latency_ms": 2027.27,
+      "count": 10,
+      "valid": true
+    },
+    "movies_catalog": {
+      "status": 200,
+      "latency_ms": 2050.72,
+      "total": 251,
+      "items_count": 12,
+      "valid": true
+    },
+    "movie_detail": {
+      "status": 200,
+      "latency_ms": 2059.44,
+      "title": "Star Wars (1977)",
+      "valid": true
+    },
+    "user_profile": {
+      "status": 200,
+      "latency_ms": 2067.04,
+      "ratings_count": 218,
+      "valid": true
+    },
+    "metrics": {
+      "status": 200,
+      "latency_ms": 2022.19,
+      "models_count": 10,
+      "best_hit_rate_model": "Neural CF",
+      "valid": false
+    },
+    "compare": {
+      "status": 200,
+      "latency_ms": 2089.05,
+      "jaccard_similarity": 0.1765,
+      "overlap_count": 3,
+      "valid": true
+    }
+  },
+  "recommendation_correctness": {
+    "total_checks": 120,
+    "passed_checks": 120,
+    "failed_checks": 0,
+    "violations": [],
+    "checkpoints_unmodified": true
+  },
+  "performance_benchmarks": {
+    "model_latencies_ms": {
+      "popularity": {
+        "model_name": "Popularity Baseline",
+        "avg_latency_ms": 2048.05,
+        "min_latency_ms": 2022.13,
+        "max_latency_ms": 2122.33
+      },
+      "content_based": {
+        "model_name": "Content-Based Recommender",
+        "avg_latency_ms": 2063.53,
+        "min_latency_ms": 2042.58,
+        "max_latency_ms": 2200.53
+      },
+      "user_cf": {
+        "model_name": "User-Based Collaborative Filtering",
+        "avg_latency_ms": 2048.79,
+        "min_latency_ms": 2038.09,
+        "max_latency_ms": 2068.46
+      },
+      "item_cf": {
+        "model_name": "Item-Based Collaborative Filtering",
+        "avg_latency_ms": 2060.77,
+        "min_latency_ms": 2028.38,
+        "max_latency_ms": 2117.75
+      },
+      "knn_baseline": {
+        "model_name": "KNN with Baselines",
+        "avg_latency_ms": 2061.91,
+        "min_latency_ms": 2022.83,
+        "max_latency_ms": 2127.72
+      },
+      "svd": {
+        "model_name": "Funk SVD (Matrix Factorization)",
+        "avg_latency_ms": 2049.14,
+        "min_latency_ms": 2020.39,
+        "max_latency_ms": 2098.76
+      },
+      "svdpp": {
+        "model_name": "SVD++ (Factorization + Implicit)",
+        "avg_latency_ms": 2057.66,
+        "min_latency_ms": 2040.24,
+        "max_latency_ms": 2130.41
+      },
+      "nmf": {
+        "model_name": "Non-Negative Matrix Factorization (NMF)",
+        "avg_latency_ms": 2054.61,
+        "min_latency_ms": 2036.92,
+        "max_latency_ms": 2092.23
+      },
+      "neural_cf": {
+        "model_name": "Neural CF (Neural Matrix Factorization)",
+        "avg_latency_ms": 2056.88,
+        "min_latency_ms": 2043.9,
+        "max_latency_ms": 2079.82
+      },
+      "hybrid": {
+        "model_name": "Weighted Hybrid Recommender",
+        "avg_latency_ms": 2075.58,
+        "min_latency_ms": 2025.56,
+        "max_latency_ms": 2286.15
+      }
+    },
+    "endpoint_latencies_ms": {
+      "/health": 2039.28,
+      "/models": 2027.27,
+      "/movies": 2050.72,
+      "/movies/50": 2059.44,
+      "/users/1/profile": 2067.04,
+      "/metrics": 2022.19,
+      "/compare": 2089.05
+    }
+  },
+  "error_handling": {
+    "movie_99999_status": 404,
+    "user_99999_profile_status": 404,
+    "rec_user_99999_status": 422,
+    "rec_invalid_model_status": 400,
+    "rec_negative_k_status": 422,
+    "all_handled_correctly": true
+  }
+}

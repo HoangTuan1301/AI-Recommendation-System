@@ -1,0 +1,104 @@
+{
+  "total_scenarios": 19,
+  "passed_scenarios": 19,
+  "failed_scenarios": 0,
+  "scenarios": [
+    {
+      "name": "Navbar Brand Logo renders",
+      "passed": true,
+      "details": "Found: CINEAI"
+    },
+    {
+      "name": "Hero Heading renders",
+      "passed": true,
+      "details": "Title: \"Star Wars (1977)\""
+    },
+    {
+      "name": "Hero Movie Details Modal opens cleanly",
+      "passed": true,
+      "details": ""
+    },
+    {
+      "name": "Movie Detail Modal closes cleanly",
+      "passed": true,
+      "details": ""
+    },
+    {
+      "name": "Navigate to Discover page",
+      "passed": true,
+      "details": ""
+    },
+    {
+      "name": "Search filter works for \"Godfather\"",
+      "passed": true,
+      "details": "Showing 2 of 2 movies"
+    },
+    {
+      "name": "Genre chip filter works for \"Sci-Fi\"",
+      "passed": true,
+      "details": "Showing 24 of 101 movies"
+    },
+    {
+      "name": "Navigate to Recommendations page",
+      "passed": true,
+      "details": ""
+    },
+    {
+      "name": "Recommendations generated for User",
+      "passed": true,
+      "details": ""
+    },
+    {
+      "name": "Rank #1 badge present in recommendation cards",
+      "passed": true,
+      "details": ""
+    },
+    {
+      "name": "Navigate to AI Lab page",
+      "passed": true,
+      "details": ""
+    },
+    {
+      "name": "Official Leaderboard renders",
+      "passed": true,
+      "details": ""
+    },
+    {
+      "name": "Model Battle computes and renders Jaccard Index",
+      "passed": true,
+      "details": ""
+    },
+    {
+      "name": "Navigate to User Profile page",
+      "passed": true,
+      "details": ""
+    },
+    {
+      "name": "User Profile heading renders",
+      "passed": true,
+      "details": "Viewer #1 Profile"
+    },
+    {
+      "name": "User rating history loaded from Train dataset",
+      "passed": true,
+      "details": "Rated: 218"
+    },
+    {
+      "name": "Quick Switch to User #196 dynamically reloads profile",
+      "passed": true,
+      "details": "Viewer #196 Profile"
+    },
+    {
+      "name": "Mobile hamburger navigation button renders",
+      "passed": true,
+      "details": ""
+    },
+    {
+      "name": "Mobile navigation drawer expands with links",
+      "passed": true,
+      "details": ""
+    }
+  ],
+  "console_errors": [],
+  "network_errors": []
+}
